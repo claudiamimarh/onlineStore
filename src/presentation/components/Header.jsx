@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-const Header = () => {
-  const { cartCount } = useCart(); 
+const Header = ({ currentProductModel }) => {
+  const { cartCount } = useCart();
+  const location = useLocation();
+
+  // Evaluamos si estamos en la ruta de detalle
+  const isDetailPage = location.pathname.startsWith('/product/');
 
   return (
     <header style={styles.header}>
@@ -11,8 +15,18 @@ const Header = () => {
         <Link to="/" style={styles.logo}>
           📱 DeviceStore
         </Link>
+        
+        {/* Breadcrumbs Dinámico */}
         <nav style={styles.breadcrumbs}>
           <Link to="/" style={styles.breadcrumbLink}>Inicio</Link>
+          {isDetailPage && (
+            <>
+              <span style={styles.separator}> › </span>
+              <span style={styles.currentPath}>
+                {currentProductModel || 'Cargando...'}
+              </span>
+            </>
+          )}
         </nav>
       </div>
 
