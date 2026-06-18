@@ -45,25 +45,27 @@ const ProductListPage = () => {
       <main style={styles.container}>
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
         
-        <div style={styles.grid}>
-          {filteredProducts.map((product) => (
-            <div 
-              key={product.id} 
-              style={styles.card}
-              onClick={() => navigate(`/product/${product.id}`)} // Navegación al detalle
-            >
-              <img 
-                src={product.imgUrl} 
-                alt={`${product.brand} ${product.model}`} 
-                style={styles.image} 
-              />
-              <h3 style={styles.brand}>{product.brand}</h3>
-              <p style={styles.model}>{product.model}</p>
-              <p style={styles.price}>
-                {product.price ? `${product.price} €` : 'No disponible'}
-              </p>
-            </div>
-          ))}
+        <div style={styles.gridContainer}>
+          <div style={styles.grid}>
+            {filteredProducts.map((product) => (
+              <div 
+                key={product.id} 
+                style={styles.card}
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <img 
+                  src={product.imgUrl} 
+                  alt={`${product.brand} ${product.model}`} 
+                  style={styles.image} 
+                />
+                <h3 style={styles.brand}>{product.brand}</h3>
+                <p style={styles.model}>{product.model}</p>
+                <p style={styles.price}>
+                  {product.price ? `${product.price} €` : 'No disponible'}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {filteredProducts.length === 0 && (
@@ -87,11 +89,18 @@ const styles = {
     fontSize: '18px',
     fontFamily: 'sans-serif'
   },
+  gridContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%'
+  },
   grid: {
     display: 'grid',
-    // Grid adaptativo: calcula columnas dinámicamente con un máximo estricto de 4 columnas
+    width: '100%',
     gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-    gap: '20px'
+    gap: '20px',
+    maxWidth: '1000px', 
+    margin: '0 auto'
   },
   card: {
     border: '1px solid #e9ecef',
@@ -105,7 +114,8 @@ const styles = {
   image: {
     maxHeight: '160px',
     objectFit: 'contain',
-    marginBottom: '15px'
+    marginBottom: '15px',
+    maxWidth: '100%'
   },
   brand: {
     fontSize: '16px',
@@ -130,19 +140,5 @@ const styles = {
     marginTop: '40px'
   }
 };
-
-// Restricción de CSS directo para limitar a un máximo de 4 columnas en pantallas anchas
-const mediaQueryStyles = `
-  @media (min-width: 1024px) {
-    div[style*="gridTemplateColumns"] {
-      grid-template-columns: repeat(4, 1fr) !important;
-    }
-  }
-`;
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement("style");
-  styleSheet.innerText = mediaQueryStyles;
-  document.head.appendChild(styleSheet);
-}
 
 export default ProductListPage;

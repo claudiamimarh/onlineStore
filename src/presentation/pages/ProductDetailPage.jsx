@@ -5,7 +5,6 @@ import { useCart } from '../context/UseCart';
 import { addProductToCartUseCase } from '../../core/useCases/addProductToCartUseCase';
 import Header from '../components/Header';
 
-
 const ProductDetailPage = () => {
   const { id } = useParams();
   const { updateCartCount } = useCart(); 
@@ -13,10 +12,13 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isAdding, setIsAdding] = useState(false); // Estado de carga para el botón
+  const [isAdding, setIsAdding] = useState(false);
 
   const [selectedStorage, setSelectedStorage] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalConfig, setModalConfig] = useState({ title: '', message: '', isError: false });
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -25,7 +27,6 @@ const ProductDetailPage = () => {
         const data = await getProductDetailUseCase(id);
         setProduct(data);
 
-        // Selección por defecto obligatoria según el PDF (primer elemento disponible)
         if (data.options?.storages?.length > 0) {
           setSelectedStorage(data.options.storages[0].code);
         }
@@ -44,21 +45,31 @@ const ProductDetailPage = () => {
   }, [id]);
 
   const handleAddToCart = async () => {
-  try {
-    setIsAdding(true);
-    
-    const result = await addProductToCartUseCase(product.id, selectedColor, selectedStorage);
+    try {
+      setIsAdding(true);
+      const result = await addProductToCartUseCase(product.id, selectedColor, selectedStorage);
 
-    updateCartCount(prevCount => prevCount + (result.count || 1));
-    
-    alert('¡Producto añadido a la cesta con éxito!');
-  } catch (err) {
-    console.error(err);
-    alert('Hubo un problema al añadir el producto a la cesta.');
-  } finally {
-    setIsAdding(false);
-  }
-};
+      updateCartCount(prevCount => prevCount + (result.count || 1));
+      
+      setModalConfig({
+        title: '¡Operación Exitosa!',
+        message: `El dispositivo ${product.brand} ${product.model} fue añadido correctamente a tu cesta de compras.`,
+        isError: false
+      });
+      setShowModal(true);
+
+    } catch (err) {
+      console.error(err);
+      setModalConfig({
+        title: 'Hubo un problema',
+        message: 'No pudimos procesar la solicitud para añadir este producto. Por favor, inténtalo de nuevo.',
+        isError: true
+      });
+      setShowModal(true);
+    } finally {
+      setIsAdding(false);
+    }
+  };
 
   if (loading) return <div style={styles.center}>Cargando especificaciones...</div>;
   if (error) return <div style={styles.center}>{error}</div>;
@@ -131,6 +142,29 @@ const ProductDetailPage = () => {
           </div>
         </div>
       </main>
+
+      {showModal && (
+        <div style={styles.modalOverlay} onClick={() => setShowModal(false)}>
+          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ 
+              ...styles.modalTitle, 
+              color: modalConfig.isError ? '#dc3545' : '#198754' 
+            }}>
+              {modalConfig.title}
+            </h3>
+            <p style={styles.modalText}>{modalConfig.message}</p>
+            <button 
+              style={{
+                ...styles.modalButton,
+                backgroundColor: modalConfig.isError ? '#dc3545' : '#198754'
+              }} 
+              onClick={() => setShowModal(false)}
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -245,6 +279,50 @@ const styles = {
     width: '100%',
     maxWidth: '300px',
     transition: 'background-color 0.2s'
+  },
+  
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: '30px',
+    borderRadius: '8px',
+    maxWidth: '450px',
+    width: '90%',
+    textAlign: 'center',
+    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
+    fontFamily: 'sans-serif'
+  },
+  modalTitle: {
+    margin: '0 0 15px 0',
+    fontSize: '22px',
+    fontWeight: 'bold'
+  },
+  modalText: {
+    fontSize: '15px',
+    color: '#495057',
+    lineHeight: '1.5',
+    marginBottom: '25px'
+  },
+  modalButton: {
+    padding: '10px 25px',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s'
   }
 };
 
