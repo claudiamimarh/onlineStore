@@ -14,8 +14,11 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('itx_cart_count', cartCount.toString());
   }, [cartCount]);
 
-  const updateCartCount = (count) => {
-    setCartCount(count);
+  const updateCartCount = (countOrFn) => {
+    setCartCount(prev => {
+        const nextCount = typeof countOrFn === 'function' ? countOrFn(prev) : countOrFn;
+        return nextCount;
+    });
   };
 
   return (

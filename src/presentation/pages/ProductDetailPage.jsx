@@ -44,21 +44,21 @@ const ProductDetailPage = () => {
   }, [id]);
 
   const handleAddToCart = async () => {
-    try {
-      setIsAdding(true);
-      
-      const result = await addProductToCartUseCase(product.id, selectedColor, selectedStorage);
-      
-      updateCartCount(result.count);
-      
-      alert('¡Producto añadido a la cesta con éxito!');
-    } catch (err) {
-      console.error(err);
-      alert('Hubo un problema al añadir el producto a la cesta.');
-    } finally {
-      setIsAdding(false);
-    }
-  };
+  try {
+    setIsAdding(true);
+    
+    const result = await addProductToCartUseCase(product.id, selectedColor, selectedStorage);
+
+    updateCartCount(prevCount => prevCount + (result.count || 1));
+    
+    alert('¡Producto añadido a la cesta con éxito!');
+  } catch (err) {
+    console.error(err);
+    alert('Hubo un problema al añadir el producto a la cesta.');
+  } finally {
+    setIsAdding(false);
+  }
+};
 
   if (loading) return <div style={styles.center}>Cargando especificaciones...</div>;
   if (error) return <div style={styles.center}>{error}</div>;
@@ -66,7 +66,7 @@ const ProductDetailPage = () => {
 
   return (
     <div>
-      <Header />
+      <Header currentProductModel={product ? `${product.brand} ${product.model}` : ''} />
       <main style={styles.container}>
         <Link to="/" style={styles.backLink}>← Volver a la lista de productos</Link>
 
