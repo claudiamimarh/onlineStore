@@ -14,8 +14,21 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.jest,
+        ...globals.node
+      },
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      // Permite exportar hooks (useCart) junto con componentes (CartProvider) en archivos de contexto
+      'react-refresh/only-export-components': [
+        'error',
+        { allowConstantExport: true },
+      ],
+      // Ignora el error de 'React' definido pero no usado
+      'no-unused-vars': ['error', { 'varsIgnorePattern': '^React$' }]
+    }
   },
 ])

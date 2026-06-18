@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/UseCart';
 
 const Header = ({ currentProductModel }) => {
   const { cartCount } = useCart();
