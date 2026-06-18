@@ -13,10 +13,8 @@ Para demostrar buenas prácticas de ingeniería de software, se implementó una 
 ### Estructura de Carpetas
 
 src/
-├── core/                  # Lógica de negocio pura 
-│   ├── domain/            # Modelos de datos 
+├── core/                  # Lógica de negocio pura
 │   ├── useCases/          # Reglas de negocio
-│   └── services/          # Interfaces / Contratos de infraestructura
 ├── infrastructure/        # Implementaciones y herramientas externas
 │   ├── api/               # Cliente HTTP / Peticiones fetch a la API
 │   └── storage/           # Implementación de caché
