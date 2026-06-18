@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SearchBar = ({ value, onChange }) => {
   return (
     <div style={styles.searchContainer}>

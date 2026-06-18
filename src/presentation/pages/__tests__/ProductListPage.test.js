@@ -1,9 +1,8 @@
-import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProductListPage from '../ProductListPage';
 import { getProductsUseCase } from '../../../core/useCases/getProductsUseCase';
-import { CartProvider } from '../../context/CartContext';
+import { CartProvider } from '../../context/CartProvider';
 
 jest.mock('../../../core/useCases/getProductsUseCase');
 

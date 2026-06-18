@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductDetailUseCase } from '../../core/useCases/getProductDetailUseCase';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../context/UseCart';
 import { addProductToCartUseCase } from '../../core/useCases/addProductToCartUseCase';
 import Header from '../components/Header';
 

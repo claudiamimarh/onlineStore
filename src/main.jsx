@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { CartProvider } from './presentation/context/CartContext';
+import { CartProvider } from './presentation/context/CartProvider';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

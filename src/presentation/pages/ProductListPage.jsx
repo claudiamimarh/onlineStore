@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProductsUseCase } from '../../core/useCases/getProductsUseCase';
 import Header from '../components/Header';

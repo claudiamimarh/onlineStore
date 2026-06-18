@@ -33,7 +33,7 @@ export const localStorageAdapter = {
 
       return data;
     } catch (error) {
-      return null; 
+      return error; 
     }
   },
 
