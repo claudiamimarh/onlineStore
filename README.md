@@ -35,7 +35,7 @@ Tecnologías Utilizadas
     React (JavaScript Moderno ES6) - Sin TypeScript por restricciones técnicas de la prueba.
     React Router Dom - Para la navegación e historial de la SPA.
     Vite - Como herramienta de construcción (Bundler) rápida y eficiente.
-    Jest - Framework de pruebas unitarias.
+    Vitest - Framework de pruebas unitarias.
     ESLint - Para garantizar la consistencia y calidad del código.
 
 ##### Instalación y Scripts Requeridos
