@@ -160,4 +160,4 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;oductDetailPage;
+export default ProductDetailPage;
