@@ -4,6 +4,7 @@ import { getProductDetailUseCase } from '../../core/useCases/getProductDetailUse
 import { useCart } from '../context/UseCart';
 import { addProductToCartUseCase } from '../../core/useCases/addProductToCartUseCase';
 import Header from '../components/Header';
+import './ProductDetailPage.css';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -71,28 +72,28 @@ const ProductDetailPage = () => {
     }
   };
 
-  if (loading) return <div style={styles.center}>Cargando especificaciones...</div>;
-  if (error) return <div style={styles.center}>{error}</div>;
+  if (loading) return <div className="product-detail__center">Cargando especificaciones...</div>;
+  if (error) return <div className="product-detail__center">{error}</div>;
   if (!product) return null;
 
   return (
     <div>
       <Header currentProductModel={product ? `${product.brand} ${product.model}` : ''} />
-      <main style={styles.container}>
-        <Link to="/" style={styles.backLink}>← Volver a la lista de productos</Link>
+      <main className="product-detail">
+        <Link to="/" className="product-detail__back-link">← Volver a la lista de productos</Link>
 
-        <div style={styles.twoColumns}>
-          <div style={styles.columnImage}>
-            <img src={product.imgUrl} alt={`${product.brand} ${product.model}`} style={styles.image} />
+        <div className="product-detail__two-columns">
+          <div className="product-detail__column-image">
+            <img src={product.imgUrl} alt={`${product.brand} ${product.model}`} className="product-detail__image" />
           </div>
 
-          <div style={styles.columnInfo}>
-            <section style={styles.descriptionSection}>
-              <h2 style={styles.title}>{product.brand} {product.model}</h2>
-              <p style={styles.price}>Precio: {product.price ? `${product.price} €` : 'No disponible'}</p>
+          <div className="product-detail__column-info">
+            <section>
+              <h2 className="product-detail__title">{product.brand} {product.model}</h2>
+              <p className="product-detail__price">Precio: {product.price ? `${product.price} €` : 'No disponible'}</p>
               
-              <h4 style={styles.sectionTitle}>Especificaciones Técnicas:</h4>
-              <ul style={styles.list}>
+              <h4 className="product-detail__section-title">Especificaciones Técnicas:</h4>
+              <ul className="product-detail__list">
                 <li><strong>CPU:</strong> {product.cpu || 'N/D'}</li>
                 <li><strong>RAM:</strong> {product.ram || 'N/D'}</li>
                 <li><strong>Sistema Operativo:</strong> {product.os || 'N/D'}</li>
@@ -104,23 +105,23 @@ const ProductDetailPage = () => {
               </ul>
             </section>
 
-            <hr style={styles.divider} />
+            <hr className="product-detail__divider" />
 
-            <section style={styles.actionsSection}>
-              <h4 style={styles.sectionTitle}>Personaliza tu dispositivo:</h4>
+            <section>
+              <h4 className="product-detail__section-title">Personaliza tu dispositivo:</h4>
               
-              <div style={styles.selectorGroup}>
-                <label style={styles.label}>Almacenamiento:</label>
-                <select value={selectedStorage} onChange={(e) => setSelectedStorage(e.target.value)} style={styles.select}>
+              <div className="product-detail__selector-group">
+                <label className="product-detail__label">Almacenamiento:</label>
+                <select value={selectedStorage} onChange={(e) => setSelectedStorage(e.target.value)} className="product-detail__select">
                   {product.options?.storages?.map((storage) => (
                     <option key={storage.code} value={storage.code}>{storage.name}</option>
                   ))}
                 </select>
               </div>
 
-              <div style={styles.selectorGroup}>
-                <label style={styles.label}>Color:</label>
-                <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)} style={styles.select}>
+              <div className="product-detail__selector-group">
+                <label className="product-detail__label">Color:</label>
+                <select value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)} className="product-detail__select">
                   {product.options?.colors?.map((color) => (
                     <option key={color.code} value={color.code}>{color.name}</option>
                   ))}
@@ -129,11 +130,7 @@ const ProductDetailPage = () => {
 
               <button 
                 onClick={handleAddToCart} 
-                style={{
-                  ...styles.button,
-                  backgroundColor: isAdding ? '#6c757d' : '#0d6efd',
-                  cursor: isAdding ? 'not-allowed' : 'pointer'
-                }}
+                className={`product-detail__button ${isAdding ? 'product-detail__button--loading' : ''}`}
                 disabled={isAdding || !product.price}
               >
                 {isAdding ? 'Añadiendo...' : 'Añadir a la cesta'}
@@ -144,20 +141,14 @@ const ProductDetailPage = () => {
       </main>
 
       {showModal && (
-        <div style={styles.modalOverlay} onClick={() => setShowModal(false)}>
-          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ 
-              ...styles.modalTitle, 
-              color: modalConfig.isError ? '#dc3545' : '#198754' 
-            }}>
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3 className={`modal-content__title ${modalConfig.isError ? 'modal-content__title--error' : 'modal-content__title--success'}`}>
               {modalConfig.title}
             </h3>
-            <p style={styles.modalText}>{modalConfig.message}</p>
+            <p className="modal-content__text">{modalConfig.message}</p>
             <button 
-              style={{
-                ...styles.modalButton,
-                backgroundColor: modalConfig.isError ? '#dc3545' : '#198754'
-              }} 
+              className={`modal-content__button ${modalConfig.isError ? 'modal-content__button--error' : 'modal-content__button--success'}`} 
               onClick={() => setShowModal(false)}
             >
               Entendido
@@ -169,161 +160,4 @@ const ProductDetailPage = () => {
   );
 };
 
-const styles = {
-  container: {
-    padding: '20px 30px',
-    fontFamily: 'sans-serif',
-    maxWidth: '1200px',
-    margin: '0 auto'
-  },
-  center: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    fontSize: '18px',
-    fontFamily: 'sans-serif'
-  },
-  backLink: {
-    display: 'inline-block',
-    marginBottom: '20px',
-    color: '#0d6efd',
-    textDecoration: 'none',
-    fontWeight: '500'
-  },
-  twoColumns: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '40px',
-    marginTop: '10px'
-  },
-  columnImage: {
-    flex: '1 1 350px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '8px',
-    border: '1px solid #e9ecef'
-  },
-  image: {
-    maxWidth: '100%',
-    maxHeight: '400px',
-    objectFit: 'contain'
-  },
-  columnInfo: {
-    flex: '2 1 500px',
-    backgroundColor: '#fff',
-    padding: '25px',
-    borderRadius: '8px',
-    border: '1px solid #e9ecef'
-  },
-  title: {
-    margin: '0 0 10px 0',
-    fontSize: '28px',
-    color: '#212529'
-  },
-  price: {
-    fontSize: '20px',
-    fontWeight: 'bold',
-    color: '#198754',
-    margin: '0 0 20px 0'
-  },
-  sectionTitle: {
-    margin: '15px 0 10px 0',
-    fontSize: '16px',
-    color: '#495057'
-  },
-  list: {
-    listStyleType: 'none',
-    padding: 0,
-    margin: 0,
-    lineHeight: '2'
-  },
-  divider: {
-    border: '0',
-    borderTop: '1px solid #dee2e6',
-    margin: '25px 0'
-  },
-  selectorGroup: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-    marginBottom: '15px'
-  },
-  label: {
-    width: '120px',
-    fontWeight: '500',
-    color: '#495057',
-    fontSize: '14px'
-  },
-  select: {
-    padding: '8px 12px',
-    borderRadius: '4px',
-    border: '1px solid #ced4da',
-    minWidth: '150px',
-    outline: 'none',
-    fontSize: '14px'
-  },
-  button: {
-    marginTop: '15px',
-    padding: '12px 24px',
-    backgroundColor: '#0d6efd',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    width: '100%',
-    maxWidth: '300px',
-    transition: 'background-color 0.2s'
-  },
-  
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: '30px',
-    borderRadius: '8px',
-    maxWidth: '450px',
-    width: '90%',
-    textAlign: 'center',
-    boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-    fontFamily: 'sans-serif'
-  },
-  modalTitle: {
-    margin: '0 0 15px 0',
-    fontSize: '22px',
-    fontWeight: 'bold'
-  },
-  modalText: {
-    fontSize: '15px',
-    color: '#495057',
-    lineHeight: '1.5',
-    marginBottom: '25px'
-  },
-  modalButton: {
-    padding: '10px 25px',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '15px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'opacity 0.2s'
-  }
-};
-
-export default ProductDetailPage;
+export default ProductDetailPage;oductDetailPage;

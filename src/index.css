@@ -15,6 +15,18 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* UI Colors */
+  --header-bg: #f8f9fa;
+  --border-color: #e9ecef;
+  --text-main: #212529;
+  --text-muted: #6c757d;
+  --primary-color: #0d6efd;
+  --primary-hover: #0b5ed7;
+  --error-color: #dc3545;
+  --success-color: #198754;
+  --input-border: #ced4da;
+  --white: #ffffff;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;

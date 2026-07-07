@@ -1,0 +1,21 @@
+.search-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+.search-bar__input {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid var(--input-border);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-bar__input:focus {
+  border-color: var(--primary-color);
+}
