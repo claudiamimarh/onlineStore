@@ -1,13 +1,14 @@
 import { getProductsUseCase } from '../getProductsUseCase';
 import { itxApiAdapter } from '../../../infrastructure/api/itxApiAdapter';
 import { localStorageAdapter } from '../../../infrastructure/storage/localStorageAdapter';
+import { vi } from 'vitest';
 
-jest.mock('../../../infrastructure/api/itxApiAdapter');
-jest.mock('../../../infrastructure/storage/localStorageAdapter');
+vi.mock('../../../infrastructure/api/itxApiAdapter');
+vi.mock('../../../infrastructure/storage/localStorageAdapter');
 
 describe('getProductsUseCase - Sistema de Caché', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('Debe retornar los datos desde la caché si no ha expirado y NO llamar a la API', async () => {

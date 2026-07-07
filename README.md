@@ -6,7 +6,7 @@ Este proyecto es una Single Page Application (SPA) desarrollada en React que per
 
 Para demostrar buenas prácticas de ingeniería de software, se implementó una variante de **Arquitectura Hexagonal / Clean Architecture** adaptada al ecosistema Frontend. El proyecto se divide en tres capas principales:
 
-1. **Core / Domain & Use Cases (Capa de Negocio):** Contiene las entidades puras de JavaScript (Modelos) y las reglas de negocio (Casos de Uso), tales como la obtención de productos, filtrado y la gestión de la expiración de la caché.
+1. **Core / Domain & Use Cases (Capa de Negocio):** Contiene las reglas de negocio (Casos de Uso), tales como la obtención de productos, filtrado y la gestión de la expiración de la caché. En esta capa deben ir los modelos pero para este caso particular se integra con la API para la gestión de datos como es solicitado en el ejercicio.
 2. **Infrastructure (Capa de Adaptadores Exteriores):** Contiene los adaptadores para comunicarse con servicios externos. Aquí se implementan el cliente HTTP para consumir la API y el mecanismo de almacenamiento en caché (`localStorage`).
 3. **Presentation (Capa de UI / Framework):** Compuesta por los componentes de React, contextos globales, enrutador y vistas. Su única responsabilidad es la interfaz y reaccionar a las interacciones del usuario invocando los Casos de Uso del Core.
 

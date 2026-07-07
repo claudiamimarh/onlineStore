@@ -3,8 +3,9 @@ import { BrowserRouter } from 'react-router-dom';
 import ProductListPage from '../ProductListPage';
 import { getProductsUseCase } from '../../../core/useCases/getProductsUseCase';
 import { CartProvider } from '../../context/CartProvider';
+import { vi } from 'vitest';
 
-jest.mock('../../../core/useCases/getProductsUseCase');
+vi.mock('../../../core/useCases/getProductsUseCase');
 
 const mockProducts = [
   { id: '1', brand: 'Samsung', model: 'Galaxy S23', price: '900', imgUrl: null },
